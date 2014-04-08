@@ -1,0 +1,149 @@
+﻿CT-214
+Analog and Digital Communication
+
+
+
+
+
+
+Lab 5
+Lab on Sampling,
+Reconstruction and Aliasing
+
+
+
+
+
+
+
+
+By
+Priyansh Trivedi 201201243
+Yash Deshpande 201201238
+AIM:
+The purpose of this lab is to understand practical reconstruction of a signal from its samples. We also study the problem of aliasing that occurs due to under sampling of a signal at a rate less than twice the bandwidth of the signal
+
+
+THEORY:
+
+
+
+
+Sampling: Sampling is the reduction of a continuous signal to a discrete signal. This is followed out by extracting the value of amplitude of continuous signals at finite intervals and creating a set of such values.
+
+
+This can later be represented as impulse signals with their amplitude being the elements of the set placed at finite distances. Thus this time domain discrete time signal can be visualized as the skeleton of our original continuous time signal. We can then use interpolation amongst the impulse signals to reconstruct the original signal closely. The duration between the samples and the interpolation used define how accurately we reconstruct back our waveform.
+
+
+
+
+Nyquist Sampling Theorem: 
+
+
+“If a function x(t) contains no frequencies higher than B hertz, 
+it is completely determined by giving its ordinates at a series of points spaced 1/(2B) seconds apart.”
+
+
+The Nyquist rate, is twice the bandwidth of a bandlimited function or a bandlimited channel.
+
+
+
+
+PROCEDURE:
+2)
+The objective is to sample the signal: , and reconstruct it back.
+Frequency of our signal x(t) = 32
+Thus we need to sample our signal at every 1/32*2 = 0.015625 seconds
+
+
+And since we can’t sample our signal at more than the sampling rate,
+we upsample our signal by inserting two zeroes between two given samples
+
+
+
+
+Now to reconstruct, we convolve our signal by two kinds of holds:
+ZOH: Zero order hold, is a square wave which is represented in mathscript by [1,1]
+FOH: FIrst order hold, is a triangular wave which can be obtained by convolving two first order holds and can be represented in mathscript by [1,2,1]. Convolving with this leads to addition of two more values in the signal matrix and it needs to be adjusted accordingly.
+
+
+
+
+3)
+The objective is to sample and reconstruct the signal in spectral domain:  where f =100hz
+It has to be sampled at 800hz, 600hz and 500hz. At the last value, the reconstructed waveform should denote some loss of information as the signal frequency is 300hz.. Thus fs must be more than or equal to 600hz
+
+
+
+
+CODE:
+
+
+Q2)
+
+
+N = 32;
+f = 1/(N*2);
+t = 0:0.01:10;
+
+
+
+
+x = cos(2*pi*f*t);
+X = upsample(x,2)
+
+
+%stem(upsample(x,2));
+zoh = [1,1];
+foh = 1/2.*[1,2,1]
+%stem(zoh)
+Yz = conv(X,zoh);
+Yf = conv(X,foh);
+plot(Yf)
+
+
+fs = f/2
+
+
+
+
+
+
+Q3)
+fs = 800
+%fs = 600
+%fs = 500
+f = 100;
+t = 0:1/fs:0.1;
+
+
+
+
+x = cos(2*pi*f*t) + cos(2*pi*2*f*t)+ cos(2*pi*3*f*t);
+X = abs(fft(x));
+plot(t,X)
+________________
+
+
+PLOTS:
+
+
+Q2:
+
+
+   
+ZOH
+  
+
+FOH
+
+
+________________
+
+
+Q3:
+  
+ for fs = 800
+  
+
+for fs = 500

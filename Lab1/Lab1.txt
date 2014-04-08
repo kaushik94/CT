@@ -1,0 +1,26 @@
+Part (a)______________________________
+
+commenting ;
+space \s
+tab \t
+stepsignal (t,t0)== This gives us the unit step function
+bitand == Gives us the bitwise and of a function
+
+Part (b)_____________________________
+
+plot(fft(exp(-2*[0:1:10]).*(stepsignal(0:1:10,0))))
+
+
+
+
+
+
+Part (c)____________________________
+
+Magnitude Response of an FFT:
+
+plot(abs(fft(exp(-2*[0:1:10]).*(stepsignal(0:1:10,0)))))
+
+Phase Response of an FFT:
+
+plot(angle(fft(exp(-2*[0:1:10]).*(stepsignal(0:1:10,0)))))
